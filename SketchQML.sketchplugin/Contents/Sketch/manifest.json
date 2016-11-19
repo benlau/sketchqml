@@ -1,0 +1,18 @@
+{
+    "name": "SketchQML",
+    "description": "Export an artboards ta a QML file",
+    "author": "Ben Lau",
+    "authorEmail": "xbenlau@gmail.com",
+    "homepage": "https://www.github.com/benlau/sketchqml",
+    "version": "0.0.1",
+    "identifier": "sketch.qml.pri",
+    "commands": [{
+        "name": "Export QML",
+        "identifier": "exportoqml",
+        "script": "qml.cocoascript"
+    },{
+        "name": "Export UI Form",
+        "identifier": "exportouiform",
+        "script": "uiform.cocoascript"
+    }]
+}

@@ -1,0 +1,16 @@
+@import "./common.js"
+
+
+var onRun = function (context) {
+    exportScript(context, function(item, target) {
+        var json = toJson(item);
+        var name = json.objectName;
+        saveText(target + "/" + name + "Form.ui.qml" , toQML(json));
+
+        var qml = "import QtQuick 2.7\n" +
+            name + "Form {\n" +
+            "}\n";
+        saveText(target + "/" + name + ".qml", qml);
+    });
+
+}
