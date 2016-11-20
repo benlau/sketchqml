@@ -17,6 +17,19 @@ function convertToHex(color) {
     return res;
 }
 
+
+function getColorFromStyle(style) {
+    var color = "transparent";
+
+    var fill = style.fill();
+
+    if (fill) {
+        color = convertToHex(fill.color());
+    }
+
+    return color;
+}
+
 function toJson(item) {
     if (item === undefined || item.frame === undefined) {
         return;
@@ -29,7 +42,6 @@ function toJson(item) {
         height: item.frame.height,
         children: []
     }
-
 
     if (item._object.class() == "MSLayerGroup") {
         // ignore
@@ -48,7 +60,8 @@ function toJson(item) {
         // It can't handle the beizer path and sub layer yet. Just treat it as Rectangle
 
         data.componentType = "Rectangle";
-        data.color = convertToHex(item._object.style().fill().color());
+        data.color = getColorFromStyle(item._object.style());
+
     } else if (item.isImage) {
         data.componentType = "Image";
         data.source = item.name + ".png";
@@ -64,6 +77,18 @@ function toJson(item) {
     }
 
     return data;
+}
+
+function getColorFromStyle(style) {
+    var color = "transparent";
+
+    var fill = style.fill();
+
+    if (fill) {
+        color = convertToHex(fill.color());
+    }
+
+    return color;
 }
 
 function leftpad(content, count) {

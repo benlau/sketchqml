@@ -8,6 +8,11 @@ Then setup the transition effect and preview in [SparkQML Viewer](https://github
 
 **Remarks**: It is an experimental project. Currently it could export images and geometray information correctly. But not all the properties are converted correctly yet. If you have any problem, please feel free to submit an issue.
 
+Known Issues
+============
+
+1) It can't handle symbol. Will skip it.
+
 Installation
 ============
 
