@@ -8,7 +8,13 @@ function formatHex (value) {
 }
 
 function convertToHex(color) {
-    return "#" + formatHex(color.red()) + formatHex(color.green()) + formatHex(color.blue());
+    var res = "";
+    if (color.alpha() < 1.0 ) {
+        res = "#" + formatHex(color.alpha()) + formatHex(color.red()) + formatHex(color.green()) + formatHex(color.blue());
+    } else {
+        res = "#" + formatHex(color.red()) + formatHex(color.green()) + formatHex(color.blue());
+    }
+    return res;
 }
 
 function toJson(item) {
@@ -211,7 +217,7 @@ function exportScript(context, iterator) {
     }
 
     if (!error) {
-        app.alert("QML file(s) are exported completed. Please check the \"QML\" folder", "Finished");
+        app.alert("QML file(s) are exported completed. Please check the \"QML\" folder in the document path.", "Finished");
     }
 
 
