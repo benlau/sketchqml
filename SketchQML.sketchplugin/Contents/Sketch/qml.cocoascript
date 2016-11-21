@@ -4,6 +4,7 @@
 var onRun = function (context) {
 
     exportScript(context, function(item, target) {
+        idTable = {}
         var json = toJson(item);
         var name = json.objectName;
         saveText(target + "/" + name + ".qml" , toQML(json));

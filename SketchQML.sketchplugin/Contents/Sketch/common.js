@@ -1,3 +1,43 @@
+
+var idTable = {}
+
+/// Generate an ID from text. If it don't contain any valid char, then return undefined
+function firstCharToLowerCase(string) {
+    return string.charAt(0).toLowerCase() + string.slice(1);
+}
+
+function uniqueId(input) {
+    var tmp = input;
+    var count = 1;
+    while (idTable.hasOwnProperty(tmp)) {
+        tmp = input + count;
+        count++;
+    }
+    idTable[tmp] = true;
+    return tmp;
+}
+
+function genId(text) {
+    if (text === undefined) {
+        return;
+    }
+
+    var res = text.replace(/[^0-9a-zA-Z_]/g, "");
+
+    while (res.length > 0 && res[0].match(/[0-9]/)) {
+        res = res.substring(1);
+    }
+
+    if (res === "") {
+        return;
+    }
+
+    res = firstCharToLowerCase(res);
+    res = uniqueId(res);
+
+    return res;
+}
+
 function formatHex (value) {
     value = Math.round(Number(value)*255);
     var hex = value.toString(16);
@@ -43,6 +83,11 @@ function toJson(item) {
         children: []
     }
 
+    var idField = genId(data.objectName);
+    if (idField) {
+        data["id"] = idField;
+    }
+
     if (item._object.class() == "MSLayerGroup") {
         // ignore
 
@@ -79,18 +124,6 @@ function toJson(item) {
     return data;
 }
 
-function getColorFromStyle(style) {
-    var color = "transparent";
-
-    var fill = style.fill();
-
-    if (fill) {
-        color = convertToHex(fill.color());
-    }
-
-    return color;
-}
-
 function leftpad(content, count) {
     var res = "";
     var c = count;
@@ -100,8 +133,10 @@ function leftpad(content, count) {
     return res + content;
 }
 
-function format(value) {
-    if (typeof value !== "object" && typeof value !== "string") {
+function formatProperty(name, value) {
+    if ( (name === "id") ||
+         (typeof value !== "object" && typeof value !== "string")
+       ) {
         return value;
     }
 
@@ -135,7 +170,7 @@ function toQML(json, ident) {
         if (reservedProperties.indexOf(i) >=0 ) {
             continue;
             }
-        var line = i + ":" + format(json[i]) + "\n";
+        var line = i + ":" + formatProperty(i, json[i]) + "\n";
         res += leftpad(line, ident + 4);
     }
 
@@ -143,7 +178,7 @@ function toQML(json, ident) {
         res += toQML(json.children[i], ident +4);
     }
 
-    res += leftpad("}\n", ident);
+    res += leftpad("}\n\n", ident);
     return res;
 }
 
