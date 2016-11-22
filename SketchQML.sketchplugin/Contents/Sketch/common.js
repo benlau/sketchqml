@@ -1,11 +1,15 @@
 
 var idTable = {}
 
-/// Generate an ID from text. If it don't contain any valid char, then return undefined
 function firstCharToLowerCase(string) {
     return string.charAt(0).toLowerCase() + string.slice(1);
 }
 
+function firstCharToUpperCase(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+/// Generate an ID from text. If it don't contain any valid char, then return undefined
 function uniqueId(input) {
     var tmp = input;
     var count = 1;
@@ -34,6 +38,23 @@ function genId(text) {
 
     res = firstCharToLowerCase(res);
     res = uniqueId(res);
+
+    return res;
+}
+
+function genValidClassName(text) {
+
+    var res = text.replace(/[^0-9a-zA-Z_]/g, "");
+
+    while (res.length > 0 && res[0].match(/[0-9]/)) {
+        res = res.substring(1);
+    }
+
+    if (res === "") {
+        return "Untitled";
+    }
+
+    res = firstCharToUpperCase(res);
 
     return res;
 }
@@ -229,6 +250,12 @@ function travel(item, func) {
     }
 }
 
+function mkdir(path) {
+    NSFileManager.defaultManager().createDirectoryAtPath_withIntermediateDirectories_attributes_error_(
+        path, true, nil, nil
+    );
+}
+
 function exportScript(context, iterator) {
 
     var doc = context.document;
@@ -250,26 +277,29 @@ function exportScript(context, iterator) {
     var target = dirname(doc.fileURL().path()) + "/QML";
 
     if (!exists(target)) {
-        NSFileManager.defaultManager().createDirectoryAtPath_withIntermediateDirectories_attributes_error_(
-            target, true, nil, nil
-        );
+        mkdir(path);
     }
 
     var error = false;
     try {
 
-        // export images
         selection.iterate(function(item) {
+            var name = new String(item.name);
+            name = genValidClassName(name);
+            var output = target + "/" + name;
+
+            if (!exists(output)) {
+                mkdir(output);
+            }
 
             travel(item, function (child) {
+                // export images
                 if (child.isImage) {
-                    saveImage(child, target);
+                    saveImage(child, output);
                 }
             });
-        });
 
-        selection.iterate(function(child) {
-            iterator(child, target);
+            iterator(item, output);
         });
     } catch (e) {
         app.alert("Exception Error", e);

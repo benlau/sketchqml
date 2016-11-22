@@ -1,4 +1,4 @@
-SketchQML - Exporting QML in SketchApp
+SketchQML - Exporting QML from SketchApp
 ===========================
 
 It is a plugin for SketchApp to export an artboard to a QML file.
