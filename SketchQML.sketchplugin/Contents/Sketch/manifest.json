@@ -4,7 +4,7 @@
     "author": "Ben Lau",
     "authorEmail": "xbenlau@gmail.com",
     "homepage": "https://www.github.com/benlau/sketchqml",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "identifier": "sketch.qml.pri",
     "commands": [{
         "name": "Export QML",
