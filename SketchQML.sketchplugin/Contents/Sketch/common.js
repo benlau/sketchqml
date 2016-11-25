@@ -292,7 +292,7 @@ function exportScript(context, iterator) {
     var target = dirname(doc.fileURL().path()) + "/QML";
 
     if (!exists(target)) {
-        mkdir(path);
+        mkdir(target);
     }
 
     var error = false;
