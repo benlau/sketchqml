@@ -8,6 +8,7 @@ var onRun = function (context) {
         var json = toJson(item);
         var name = json.objectName;
         saveText(target + "/" + name + ".qml" , toQML(json));
+        createProjectFile(name, target + "/" + name + ".qmlproject");
     });
 
 }

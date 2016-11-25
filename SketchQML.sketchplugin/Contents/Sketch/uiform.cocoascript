@@ -13,6 +13,7 @@ var onRun = function (context) {
             name + "Form {\n" +
             "}\n";
         saveText(target + "/" + name + ".qml", qml);
+        createProjectFile(name, target + "/" + name + ".qmlproject");
     });
 
 }

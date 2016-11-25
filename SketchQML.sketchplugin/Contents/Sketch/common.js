@@ -256,6 +256,21 @@ function mkdir(path) {
     );
 }
 
+function createProjectFile(name, file) {
+    var content = ["import QmlProject 1.1",
+                   "Project {",
+                   "mainFile: '" + name + ".qml'",
+                   "QmlFiles {",
+                   "directory: '.'",
+                   "}",
+                   "ImageFiles {",
+                   "directory: '.'",
+                   "}",
+                   "}"];
+
+    saveText(file, content.join("\n"));
+}
+
 function exportScript(context, iterator) {
 
     var doc = context.document;
